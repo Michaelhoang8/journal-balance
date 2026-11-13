@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Journal Balance — an accountable record</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <main>
+      <header>
+        <a href="/">J/B<span>JOURNAL BALANCE</span></a
+        ><span>LOCAL LEDGER / 063</span>
+      </header>
+      <section class="masthead">
+        <div>
+          <p class="eyebrow">AN ACCOUNTABLE RECORD</p>
+          <h1>Nothing disappears.<br />Everything balances.</h1>
+        </div>
+        <div class="actions">
+          <button id="sample">Post fictional opening entry ↗</button
+          ><button id="refresh" class="quiet">Refresh</button>
+        </div>
+      </section>
+      <div id="notice" role="status">Opening the journal…</div>
+      <div class="statusbar">
+        <span id="revision">REVISION 0</span
+        ><span id="integrity">Checking integrity</span
+        ><label
+          >View through revision
+          <select id="through">
+            <option value="">Latest</option>
+          </select></label
+        >
+      </div>
+      <section class="ledger">
+        <div>
+          <div class="section-head">
+            <h2>Trial balance</h2>
+            <span>MINOR UNITS / INTEGER AMOUNTS</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Account</th>
+                <th>Debit balance</th>
+                <th>Credit balance</th>
+              </tr>
+            </thead>
+            <tbody id="accounts"></tbody>
+            <tfoot id="totals"></tfoot>
+          </table>
+          <p class="small">
+            Balances shown in minor units. Positive debit and credit balances
+            are displayed on their respective sides. No currency conversion or
+            floating-point arithmetic.
+          </p>
+        </div>
+        <aside>
+          <p class="eyebrow">THE RECORD</p>
+          <strong id="entries-count">0</strong>
+          <p>immutable entries</p>
+          <div class="rule"></div>
+          <strong id="turnover">0</strong>
+          <p>total posted debits</p>
+          <button id="export" class="quiet">Export journal evidence ↓</button
+          ><button id="csv" class="quiet">Export trial balance ↓</button>
+        </aside>
+      </section>
+      <details id="composer">
+        <summary>
+          Post an entry <span>BALANCED / ATOMIC / RETRY-SAFE</span>
+        </summary>
+        <form id="post">
+          <div class="form-meta">
+            <label
+              >Memo<input
+                id="memo"
+                maxlength="160"
+                required
+                value="Fictional service invoice" /></label
+            ><label
+              >Request key<input
+                id="key"
+                maxlength="64"
+                pattern="[A-Za-z0-9][A-Za-z0-9_-]{0,63}"
+                required /></label
+            ><label
+              >Expected revision<input id="expected" type="number" readonly
+            /></label>
+          </div>
+          <div id="posting-lines" class="posting-lines"></div>
+          <div class="form-actions">
+            <button type="submit">Commit balanced entry ↗</button
+            ><button type="button" id="new-key" class="quiet">
+              Prepare new request</button
+            ><span id="draft-total">Debits 0 / credits 0</span>
+          </div>
+        </form>
+      </details>
+      <section class="history">
+        <div class="section-head">
+          <h2>Journal entries</h2>
+          <label
+            >Account
+            <select id="filter">
+              <option value="">All accounts</option>
+            </select></label
+          >
+        </div>
+        <div id="history"></div>
+      </section>
+      <details id="entry-details">
+        <summary>
+          Inspect / reverse an entry <span>APPEND A COMPENSATING RECORD</span>
+        </summary>
+        <div id="entry" class="entry">Choose an entry above.</div>
+        <form id="reverse">
+          <label
+            >Reason for reversal<input
+              id="reason"
+              maxlength="160"
+              value="Correct a fictional posting"
+              required /></label
+          ><button id="reverse-button" type="submit" disabled>
+            Append reversal ↗
+          </button>
+        </form>
+      </details>
+      <footer>
+        <span>SQLITE · IMMUTABLE POSTINGS · SHA-256 CHAIN</span>
+        <p>
+          A teaching ledger with a fixed chart of accounts. Hash checks detect
+          inconsistency; they do not authenticate a database against someone who
+          can rewrite it.
+        </p>
+      </footer>
+    </main>
+  </body>
+</html>
