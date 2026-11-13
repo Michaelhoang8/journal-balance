@@ -4,6 +4,10 @@ A local, integer-based double-entry journal. Balanced postings commit atomically
 
 ![Journal Balance](docs/workbench.png)
 
+## Interface
+
+Trial balance and Journal are separate views. New entry opens a balanced-posting composer, while selecting a journal row opens an inspection drawer with the reversal form. Revision selection stays above both views, and request keys remain available for retrying the same posting safely.
+
 ## Run
 
 ```sh
@@ -12,7 +16,7 @@ python run.py --port 8000
 
 Open http://127.0.0.1:8000. Python 3.10+ and its standard library are sufficient. The database is created at ignored `data/journal.sqlite3`; use `--database` to select a separate journal. No accounts, external services, or payments are involved.
 
-Start with **Post fictional opening entry**, then expand the composer to post the prefilled fictional service invoice. Clicking Commit again with the same request replays the entry. Choose **Prepare new request** before creating a different posting. Select an entry to inspect its lines and append a reversal. Historical revisions show the account balances as they stood before later entries.
+Start with **Post fictional opening entry**, then choose **New entry** to post the prefilled fictional service invoice. Clicking Commit again with the same request replays the entry. Choose **Prepare new request** before creating a different posting. Select an entry to inspect its lines and append a reversal. Historical revisions show the account balances as they stood before later entries.
 
 ## Engineering features
 

@@ -7,6 +7,10 @@ const n = (value) => value.toLocaleString();
 function notice(text, error = false) {
   $("notice").textContent = text;
   $("notice").className = error ? "error" : "";
+  for (const id of ["composer-notice", "entry-notice"]) {
+    $(id).textContent = text;
+    $(id).className = error ? "error" : "";
+  }
 }
 async function api(path, body) {
   const response = await fetch(
@@ -28,6 +32,7 @@ function controls() {
     .querySelectorAll("button,input,select")
     .forEach((e) => (e.disabled = busy));
   $("sample").disabled = busy || !snapshot || snapshot.head > 0;
+  $("sample").hidden = Boolean(snapshot && snapshot.head > 0);
   const entry = snapshot?.entries.find((e) => e.id === selected);
   $("reverse-button").disabled =
     busy ||
@@ -168,7 +173,8 @@ function history() {
       selected = entry.id;
       history();
       detail();
-      $("entry-details").open = true;
+      $("entry-notice").textContent = "";
+      $("entry-details").showModal();
     };
     $("history").append(button);
   }
@@ -250,6 +256,7 @@ $("post").onsubmit = (e) => {
     });
     selected = result.entry.id;
     await refresh();
+    $("composer").close();
     notice(
       result.replayed
         ? `Entry #${selected} replayed; no new posting.`
@@ -339,3 +346,17 @@ action(async () => {
   prepare();
   notice("Local journal loaded. All amounts are integer minor units.");
 });
+
+$("composer-open").onclick = () => {
+  $("composer-notice").textContent = "";
+  $("composer").showModal();
+};
+$("composer-close").onclick = () => $("composer").close();
+$("entry-close").onclick = () => $("entry-details").close();
+for (const view of ["balance", "journal"])
+  $(view + "-view").onclick = () => {
+    for (const name of ["balance", "journal"]) {
+      $(name + "-panel").hidden = name !== view;
+      $(name + "-view").setAttribute("aria-pressed", String(name === view));
+    }
+  };
